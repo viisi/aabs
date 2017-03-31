@@ -1,0 +1,130 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <f:metadata>
+		<f:event type="preRenderView" listener="#{cadastroContratoView.init}" />
+	</f:metadata>
+	
+	<ui:decorate template="/restrito/template.xhtml">
+		<ui:define name="container">
+			<h:form method="POST" style="position:relative">
+				<p:growl id="msg" showDetail="false" life="3000" />
+				
+	            <p:panel header="Consulta de Cliente">
+	            	<br />
+	            	<h:panelGrid columns="3">
+						<p:outputLabel value="CPF:" />
+						<p:inputMask mask="999.999.999-99" id="cpf" size="25" value="#{cadastroContratoView.filtro.cpf}" required="true" requiredMessage="Digite o CPF!" converter="cpfConverter" />
+						<p:commandButton value="Consultar" action="#{cadastroContratoView.consultar()}" ajax="false" styleClass="ui-priority-primary" />
+					</h:panelGrid>
+					
+					<br />
+					
+					<div align="left">
+						<p:fieldset legend="Dados do Cliente" style="margin-bottom:20px">
+	       					<h:panelGrid columns="2">
+								<p:outputLabel value="Nome:" />
+								<p:outputLabel value="#{cadastroContratoView.cliente.nome}" />
+								
+								<p:outputLabel value="CPF:" />
+								<p:outputLabel value="#{cadastroContratoView.cliente.cpf}" converter="cpfConverter" />
+								
+								<p:outputLabel value="Telefone:" />
+								<p:outputLabel value="#{cadastroContratoView.cliente.telefone}" />
+								
+								<p:outputLabel value="Celular:" />
+								<p:outputLabel value="#{cadastroContratoView.cliente.celular}" />
+								
+								<p:outputLabel value="Endereço:" />
+								<p:outputLabel value="#{cadastroContratoView.cliente.endereco}" />
+								
+								<p:outputLabel value="Banco:" />
+								<p:outputLabel value="#{cadastroContratoView.cliente.banco}"  />
+								
+								<p:outputLabel value="Agência:" />
+								<p:outputLabel value="#{cadastroContratoView.cliente.agencia}" />
+								
+								<p:outputLabel value="Conta:" />
+								<p:outputLabel value="#{cadastroContratoView.cliente.conta}" />
+								
+								<p:outputLabel value="Órgão:" />
+								<p:outputLabel value="#{cadastroContratoView.cliente.empresa}" />
+							</h:panelGrid>
+    					</p:fieldset>
+    					
+    					<p:fieldset legend="Dados do Contrato" style="margin-bottom:20px">
+    						<p:repeat value="#{cadastroContratoView.cliente.contratos}" var="c">
+	    						<h:panelGrid columns="2">
+	    							<p:outputLabel value="Nº:" />
+									<p:outputLabel value="#{c.id}" />
+									
+									<p:outputLabel value="Valor:" />
+									<p:outputLabel value="#{c.valor}" />
+									
+									<p:outputLabel value="Data:" />
+									<p:outputLabel value="#{c.data}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:outputLabel>
+									
+									<p:outputLabel value="Parcelas:" />
+									<p:outputLabel value="#{c.qtdParcelas}" />
+								</h:panelGrid>
+								
+								<br />
+								
+								<p:dataTable value="#{c.parcelas}" var="l" rowIndexVar="rowIndexVar" rowStyleClass="#{empty rowIndexVar or rowIndexVar mod 2 ne 0 ? 'even-row' : 'odd-row'}">
+									<p:column headerText="Parcela">
+										<p:outputLabel value="#{rowIndexVar+1}" />
+									</p:column>
+									
+									<p:column headerText="Data">
+										<p:outputLabel value="#{l.data}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</p:outputLabel>
+									</p:column>
+									
+									<p:column headerText="Valor">
+										<p:outputLabel value="#{l.valor}" />
+									</p:column>
+
+									<p:column headerText="Pago">
+										<p:outputLabel value="#{l.compensado == 'S' ? 'Sim' : 'Não'}" />
+									</p:column>
+								</p:dataTable>
+							</p:repeat>
+    					</p:fieldset>
+    					
+    					<p:fieldset legend="Novo Contrato" style="margin-bottom:20px">
+	       					<h:panelGrid columns="2">
+	       						<p:outputLabel value="Valor:" />
+								<p:inputNumber value="#{cadastroContratoView.contrato.valor}" symbol="R$" decimalSeparator="," thousandSeparator="." required="false" />
+								
+	       						<p:outputLabel value="Quantidade Parcelas:" />
+								<p:inputNumber value="#{cadastroContratoView.contrato.qtdParcelas}" decimalPlaces="0" maxValue="12" minValue="1" required="false" />
+								
+								<p:outputLabel value="Valor Parcela:" />
+								<p:inputNumber value="#{cadastroContratoView.valorParcela}" symbol="R$" decimalSeparator="," thousandSeparator="." required="false"  />
+								
+								<p:outputLabel value="Data 1º Parcela:" />
+								<p:calendar value="#{cadastroContratoView.dataPrimeiraParcela}" showOn="button" pattern="dd/MM/yyyy" />
+								
+								<p:outputLabel value="Observação:" />
+								<p:inputTextarea value="#{cadastroContratoView.contrato.observacao}" rows="6" cols="60" maxlength="500" />
+							</h:panelGrid>
+							
+							<br />
+							
+							<div align="center">
+								<p:commandButton value="Salvar" action="#{cadastroContratoView.cadastrar()}" ajax="false" styleClass="ui-priority-primary" />
+		   		            </div>
+						</p:fieldset>
+					</div>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:decorate>
+</html>

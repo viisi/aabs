@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <f:metadata>
+		<f:event type="preRenderView" listener="#{homeView.init}" />
+	</f:metadata>
+    
+	<ui:decorate template="/restrito/template.xhtml">
+		<ui:define name="container">
+			<h:form method="POST" prependId="false">
+			
+				<p:growl id="msg" showDetail="true" life="3000" />
+				<h:messages globalOnly="true" />
+				
+				<p:dataTable value="#{homeView.ultimosContratos}" var="c" style="width:100%">
+				    <p:column headerText="Nome">
+				        <h:outputText value="#{c.cliente.nome}" />
+				    </p:column>
+				    <p:column headerText="Empresa">
+				        <h:outputText value="#{c.cliente.empresa}" />
+				    </p:column>
+				    <p:column headerText="Valor Contrato" style="text-align:center">
+				        <h:outputText value="#{c.valor}">
+				        	<f:convertNumber pattern="#,##0.00" minFractionDigits="2"  />
+				        </h:outputText>
+				    </p:column>
+				    <p:column headerText="Valor Parcela" style="text-align:center">
+				        <h:outputText value="#{c.parcelas.get(0).valor}">
+				        	<f:convertNumber pattern="#,##0.00" minFractionDigits="2" />
+				        </h:outputText>
+				    </p:column>
+				    <p:column headerText="Data Parcela" style="text-align:center">
+				        <h:outputText value="#{c.parcelas.get(0).data}">
+				        	<f:convertDateTime pattern="MM/dd/yyyy" />
+				        </h:outputText>
+				    </p:column>
+				</p:dataTable>
+			</h:form>
+			
+		</ui:define>
+	</ui:decorate>
+</html>

@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+	<ui:decorate template="/restrito/template.xhtml">
+		<ui:define name="container">
+			<h:form method="POST" style="position:relative" id="formulario" prependId="false">
+			
+				<p:growl id="msg" showDetail="true" life="3000" />
+				
+	            <p:panel header="Consulta de Cliente">
+	            	<br />
+	            	<h:panelGrid columns="2">
+						<p:outputLabel value="Nome:" />
+						<p:inputText value="#{consultaClienteView.filtro.nome}" size="40" maxlength="100" />
+						<p:outputLabel value="CPF:" />
+						<p:inputMask mask="999.999.999-99" id="cpf" size="25" value="#{consultaClienteView.filtro.cpf}" converter="cpfConverter" />
+					</h:panelGrid>
+					<br />
+					<p:commandButton value="Consultar" action="#{consultaClienteView.consultar()}" ajax="false" styleClass="ui-priority-primary" />
+					
+					<br />
+					<br />
+					<br />
+					
+					<p:dataTable value="#{consultaClienteView.clientes}" var="c" id="dataTable" rows="10" paginator="true" 
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15"
+						emptyMessage="Não foram encontrados registros">
+						
+					    <p:column headerText="Nome">
+					        <h:outputText value="#{c.nome}" />
+					    </p:column>
+					    <p:column headerText="CPF">
+					        <h:outputText value="#{c.cpf}" converter="cpfConverter" />
+					    </p:column>
+					    <p:column headerText="Celular">
+					        <h:outputText value="#{c.celular}" />
+					    </p:column>
+					    <p:column headerText="Empresa">
+					        <h:outputText value="#{c.empresa}" />
+					    </p:column>
+					    
+					    <p:column headerText="Ação" width="120">
+					    	<div align="center">
+						    	<p:button outcome="editarCliente" icon="ui-icon-pencil" title="Editar">
+		    						<f:param name="id" value="#{c.id}" />
+								</p:button>
+								<p:spacer width="10" />
+								<p:commandButton icon="ui-icon-trash" title="Excluir" action="#{consultaClienteView.excluir(c)}" process="@this, dataTable" update="dataTable">
+									<p:confirm header="Exclusão de Cliente" message="Deseja realmente excluir o cliente #{c.nome}?" icon="ui-icon-alert" />
+								</p:commandButton>
+							</div>
+					    </p:column>
+					</p:dataTable>
+				</p:panel>
+				
+				<p:confirmDialog global="true" width="300" height="30">
+					<div align="center">
+		                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	   		            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+   		            </div>
+	            </p:confirmDialog>
+			</h:form>
+		</ui:define>
+	</ui:decorate>
+</html>

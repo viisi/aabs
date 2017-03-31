@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
+  SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#login.xhtml:0" NAME="item"
+   PATH="/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="cadastroUsuario::#publico#cadastroUsuario.xhtml" NAME="output"
+    PATH="/publico/cadastroUsuario.xhtml"
+    TARGET="rules:#publico#cadastroUsuario.xhtml"
+    TITLE="cadastroUsuario" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#publico#cadastroUsuario.xhtml"
+  PATH="/publico/cadastroUsuario.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#restrito#consultaCliente.xhtml"
+  PATH="/restrito/consultaCliente.xhtml" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#restrito#consultaCliente.xhtml:0" NAME="item"
+   PATH="/restrito/consultaCliente.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="editarCliente::#restrito#cadastroCliente.xhtml" NAME="output"
+    PATH="/restrito/cadastroCliente.xhtml"
+    TARGET="rules:#restrito#cadastroCliente.xhtml" TITLE="editarCliente" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#restrito#cadastroCliente.xhtml"
+  PATH="/restrito/cadastroCliente.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

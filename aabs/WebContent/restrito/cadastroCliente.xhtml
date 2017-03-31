@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+    <f:metadata>
+		<f:viewParam name="id" value="#{cadastroClienteView.idSelecionado}" />
+		<f:event type="preRenderView" listener="#{cadastroClienteView.prepararEdicao}" />
+	</f:metadata>
+    
+	<ui:decorate template="/restrito/template.xhtml">
+		<ui:define name="container">
+			<h:form method="POST" style="position:relative">
+				<p:growl id="msg" showDetail="false" life="3000" />
+				
+		            <p:panel header="Cadastro de Cliente">
+						<div align="left">
+			            	<h:panelGrid columns="2">
+								<p:outputLabel value="Nome:" />
+								<p:inputText value="#{cadastroClienteView.cliente.nome}" required="true" size="80" maxlength="255" />
+								
+								<p:outputLabel value="CPF:" />
+								<p:inputMask value="#{cadastroClienteView.cliente.cpf}" mask="999.999.999-99" required="true" converter="cpfConverter" />
+								
+								<p:outputLabel value="Empresa:" />
+								<p:selectOneMenu value="#{cadastroClienteView.cliente.empresa}">
+									<f:selectItem itemLabel="Prefeitura" itemValue="PREFEITURA" /> 
+									<f:selectItem itemLabel="INSS" itemValue="INSS" />
+									<f:selectItem itemLabel="Serv. Fed." itemValue="Serv. Fed." />
+									<f:selectItem itemLabel="Exército" itemValue="Exército" />
+									<f:selectItem itemLabel="Marinha" itemValue="Marinha" />
+									<f:selectItem itemLabel="Aeronautica" itemValue="Aeronautica" />
+								</p:selectOneMenu>
+								
+								<p:outputLabel value="Telefone:" />
+								<p:inputMask value="#{cadastroClienteView.cliente.telefone}" mask="(99) 9999-9999" />
+								
+								<p:outputLabel value="Celular:" />
+								<p:inputMask value="#{cadastroClienteView.cliente.celular}" mask="(99) 99999-9999" required="false" />
+								
+								<p:outputLabel value="Endereço:" />
+								<p:inputTextarea value="#{cadastroClienteView.cliente.endereco}" maxlength="255" cols="80" rows="3" />
+								
+								<p:outputLabel value="Banco:" />
+								<p:selectOneMenu value="#{cadastroClienteView.cliente.banco}">
+									<f:selectItem itemLabel="Caixa Econômica Federal" itemValue="CEF" />
+									<f:selectItem itemLabel="Banco do Brasil" itemValue="BB" />
+								</p:selectOneMenu>
+								
+								<p:outputLabel value="Agencia:" />
+								<p:inputText value="#{cadastroClienteView.cliente.agencia}" required="false" maxlength="5" />
+								
+								<p:outputLabel value="Conta:" />
+								<p:inputText value="#{cadastroClienteView.cliente.conta}" required="false" maxlength="20" />
+								
+								<p:column>
+									<br />								
+									<p:outputLabel value="Referência:" />
+								</p:column>
+								<p:column>
+									<br />
+									<p:inputText value="#{cadastroClienteView.cliente.referencia1}" required="false" size="80" maxlength="255" />
+								</p:column>
+								<p:outputLabel value="Celular :" />
+								<p:inputMask value="#{cadastroClienteView.cliente.telefone_referencia1}" mask="(99) 99999-9999" required="false" />
+								
+								<p:outputLabel value="Referência:" />
+								<p:inputText value="#{cadastroClienteView.cliente.referencia2}" required="false" size="80" maxlength="255" />
+								<p:outputLabel value="Celular :" />
+								<p:inputMask value="#{cadastroClienteView.cliente.telefone_referencia2}" mask="(99) 99999-9999" required="false" />
+							</h:panelGrid>
+						</div>
+						
+						<br />
+						
+						<p:commandButton value="Salvar" action="#{cadastroClienteView.cadastrar()}" ajax="false" style="display: #{cadastroClienteView.idSelecionado == null ? '' : 'none'}" styleClass="ui-priority-primary" />
+						<p:commandButton value="Salvar" action="#{cadastroClienteView.alterar()}" ajax="false" style="display: #{cadastroClienteView.idSelecionado == null ? 'none' : ''}" styleClass="ui-priority-primary" />
+						<p:commandButton value="Limpar" action="#{cadastroClienteView.limpar()}" ajax="false" styleClass="ui-priority-primary" />
+					</p:panel>
+				
+				<h:inputHidden value="#{cadastroClienteView.cliente.id}" />
+			</h:form>
+		</ui:define>
+	</ui:decorate>
+</html>
